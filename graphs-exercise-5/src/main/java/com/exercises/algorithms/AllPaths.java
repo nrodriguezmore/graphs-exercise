@@ -40,6 +40,15 @@ public class AllPaths implements Algorithm {
         return jsonFromJavaMap;
     }
 
+    /**
+     *
+     * @param graph the graph on where we execute the DFS
+     * @param currentNode current working node on the search
+     * @param to node we want to reach
+     * @param visited hashmap we use for marking visited nodes in the backtrack
+     * @param currentPath current path under review
+     * @param results here we store all the valid paths
+     */
     private void getAllPaths(Graph graph, String currentNode, String to, HashMap<String, Boolean> visited, ArrayList<String> currentPath, ArrayList<ArrayList<String>> results) {
 
         visited.put(currentNode, true);

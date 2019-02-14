@@ -13,6 +13,12 @@ import java.util.stream.Collectors;
 
 public class Executor {
 
+    /**
+     *
+     * @param graph the graph on where to execute the queries
+     * @param queries queries to execute
+     * @return executes the queries in parallel, aggregates the results and returns them as a single result
+     */
     public JsonArray execute(Graph graph, Queries queries) {
         JsonArray result = new JsonArray();
 

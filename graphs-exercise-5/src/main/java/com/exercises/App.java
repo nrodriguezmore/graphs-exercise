@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * Hello world!
@@ -25,14 +26,19 @@ public class App {
             return;
         }
 
-        System.out.println( "Hello, please insert the serialized queries to solve\n" );
 
-        //convert json string to object
-        String jsonData = "{\"queries\":[{\"type\":\"paths\",\"start\":\"n1\",\"end\":\"n4\"},{\"type\":\"cheapest\",\"start\":\"n1\",\"end\":\"n4\"},{\"type\":\"paths\",\"start\":\"n2\",\"end\":\"n3\"},{\"type\":\"cheapest\",\"start\":\"n2\",\"end\":\"n3\"},{\"type\":\"paths\",\"start\":\"n4\",\"end\":\"n1\"}]}";
+        boolean exit = false;
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println( "Hello, please enter the graph you want to execute the queries, " +
+                "press enter and then enter the serialized queries to solve\n" );
+
+        String graph_id = scanner.nextLine();
+        String jsonData = scanner.nextLine();
+            //convert json string to object
 
         Queries queries = new Gson().fromJson(jsonData, Queries.class);
-        Graph graph = graphService.load("g1");
+        Graph graph = graphService.load(graph_id);
 
         Executor executor = new Executor();
         JsonArray results = executor.execute(graph, queries);

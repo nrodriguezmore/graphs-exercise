@@ -44,20 +44,6 @@ public class CheapestPath implements Algorithm {
         return jsonFromJavaMap;
     }
 
-    private Adjacent cheapestAdjacent(Graph graph, Node node, HashMap<String, Boolean> visited) {
-
-        Double min = Double.MAX_VALUE;
-        Adjacent result = null;
-        for (Adjacent adjacent : graph.getAdjacents(node)) {
-            if (!visited.get(adjacent.node.getId()) && adjacent.cost < min) {
-                min = adjacent.cost;
-                result = adjacent;
-            }
-        }
-        return result;
-    }
-
-
     private Node cheapestDistance(Graph graph, HashMap<String, Double> distances, HashMap<String, Boolean> visited) {
 
         Double min = Double.MAX_VALUE;
@@ -71,7 +57,12 @@ public class CheapestPath implements Algorithm {
         return result;
     }
 
-
+    /**
+     *
+     * @param graph graph on where to execute the variation of dijkstra
+     * @param from on which node do we want to execute the algorithm
+     * @return
+     */
     private HashMap<String, String> dikjstra(Graph graph, String from) {
         int size = graph.getNodes().size();
         HashMap<String, Double> distances = new HashMap<String, Double>();
@@ -104,48 +95,7 @@ public class CheapestPath implements Algorithm {
                 }
             }
         }
-
-
-
         return paths;
     }
 
-    private HashMap<String, String> dikjstra2(Graph graph, String from) {
-        int size = graph.getNodes().size();
-        HashMap<String, Double> distances = new HashMap<String, Double>();
-        HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
-        HashMap<String, String> paths = new HashMap<String, String>();
-
-        for (Node node : graph.getNodes()) {
-            distances.put(node.getId(), Double.MAX_VALUE);
-            visited.put(node.getId(), false);
-        }
-
-        distances.put(from, 0.0);
-        paths.put(from, from);
-
-        for (Node node : graph.getNodes()) {
-
-            Adjacent cheapest = cheapestAdjacent(graph, node, visited);
-
-            if (cheapest!=null) {
-                visited.put(cheapest.node.getId(), true);
-
-                for (Node to : graph.getNodes()) {
-
-                    //we get the edge from cheapestAdjacent to to
-                    Adjacent adjacent = graph.getAdjacent(cheapest.node, to);
-                    if (!visited.get(to.getId()) &&
-                            adjacent != null &&
-                            cheapest.cost + adjacent.cost < distances.get(to.getId())) {
-                        paths.put(to.getId(), cheapest.node.getId());
-                        distances.put(to.getId(), cheapest.cost + adjacent.cost);
-                    }
-                }
-            }
-
-        }
-
-        return paths;
-    }
 }
