@@ -1,0 +1,5 @@
+com/exercises/model/Edge.class
+com/exercises/model/Graph.class
+com/exercises/parser/StaxParser.class
+com/exercises/model/Node.class
+com/exercises/exceptions/GraphValidationException.class
