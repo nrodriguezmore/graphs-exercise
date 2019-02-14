@@ -9,6 +9,9 @@ import com.exercises.services.GraphService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 /**
@@ -41,7 +44,26 @@ public class App {
 
             if ("load-xml-url".equals(command)) {
                 System.out.println("Enter url:");
-                String url = scanner.nextLine();
+
+                try {
+                    URL url = new URL(scanner.nextLine());
+                    InputStream inputStream = url.openConnection().getInputStream();
+                    Graph graph = StaxParser.parse(inputStream);
+                    Boolean stored = graphService.store(graph);
+                    if (stored) {
+                        System.out.println(graph.getId() + " was parsed and loaded to the db correctly");
+                    } else {
+                        System.out.println(graph.getId() + " was parsed but could not be loaded to the db correctly");
+                    }
+                } catch (GraphValidationException ex) {
+                    System.out.println(ex.getMessage());
+                } catch (MalformedURLException mue) {
+                    return;
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                    return;
+                }
+
             } else if ("load-xml-resource".equals(command)) {
                 System.out.println("Enter fileName:");
                 String fileName = scanner.nextLine();
